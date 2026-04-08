@@ -1,0 +1,6 @@
+{
+  "files": ["VERSION", "brain/pyproject.toml", "package.json"],
+  "commit": true,
+  "tag": true,
+  "push": true
+}
