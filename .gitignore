@@ -1,16 +1,26 @@
-node_modules/
-.DS_Store
-*.local
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+brain/data/brain.db
 
-# Bun
+# Node/Bun
+node_modules/
 bun.lockb
 
-# Generated — regenerate with bun run index:build
-# index/manifest.json  ← tracked intentionally
+# OS
+.DS_Store
+*.swp
 
-# Gist ID is tracked so subsequent CI runs update the right Gist
-# index/.gist-id       ← tracked intentionally
+# Build outputs
+dist/
+manifest.json
+standup/
+reviews/
 
-# Output directories (tracked for history)
-# standup/             ← tracked intentionally
-# reviews/             ← tracked intentionally
+# Secrets
+.env
+.env.local
+.gist-id
+*.egg-info/

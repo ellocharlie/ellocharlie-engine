@@ -1,11 +1,14 @@
 [submodule "modules/site"]
-  path = modules/site
-  url = https://github.com/ellocharlie/ellocharlie.com.git
+    path = modules/site
+    url = https://github.com/ellocharlie/ellocharlie.com.git
+    branch = main
 
 [submodule "modules/agents"]
-  path = modules/agents
-  url = https://github.com/ellocharlie/ellocharlie-agents.git
+    path = modules/agents
+    url = https://github.com/ellocharlie/ellocharlie-agents.git
+    branch = main
 
 [submodule "modules/content"]
-  path = modules/content
-  url = https://github.com/ellocharlie/ellocharlie-content.git
+    path = modules/content
+    url = https://github.com/ellocharlie/ellocharlie-content.git
+    branch = main

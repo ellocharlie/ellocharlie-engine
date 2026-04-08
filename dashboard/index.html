@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ellocharlie command center</title>
+  <meta name="robots" content="noindex,nofollow" />
+
+  <!-- Fonts: Cabinet Grotesk (display) + General Sans (body) -->
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=general-sans@400,500,600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Token Gate ──────────────────────────────────────────── -->
+<div class="token-gate hidden" id="token-gate">
+  <div class="token-gate-card">
+    <!-- EC Logo -->
+    <div class="token-gate-logo">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-label="ellocharlie logo">
+        <rect width="48" height="48" rx="12" fill="var(--color-primary)" />
+        <path d="M12 24C12 17.373 17.373 12 24 12C27.314 12 30.314 13.343 32.485 15.515" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M12 24H30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M12 24C12 30.627 17.373 36 24 36C27.314 36 30.314 34.657 32.485 32.485" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="36" cy="24" r="3" fill="white" opacity="0.6"/>
+      </svg>
+    </div>
+    <h1 class="token-gate-title">command center</h1>
+    <p class="token-gate-desc">
+      Enter your GitHub personal access token to load issues from the ellocharlie org. The token is stored in session memory only and never leaves your browser.
+    </p>
+    <div class="form-group" style="margin-bottom: var(--space-1); text-align: left">
+      <label class="form-label" for="token-input">GitHub Token</label>
+      <input
+        class="form-input token-gate-input"
+        id="token-input"
+        type="password"
+        placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <p class="token-gate-hint">Needs <code>repo</code> scope. <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener" style="color: var(--color-primary)">Create one →</a></p>
+    <div class="token-gate-actions">
+      <button class="btn btn-primary" style="flex:1" onclick="submitToken()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Enter dashboard
+      </button>
+      <button class="btn btn-secondary" onclick="skipToken()">Skip (read-only)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── App Shell ───────────────────────────────────────────── -->
+<div class="app-shell">
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header class="app-header">
+    <a class="header-brand" href="#">
+      <!-- EC Logo SVG -->
+      <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-label="ellocharlie">
+        <rect width="48" height="48" rx="10" fill="var(--color-primary)" />
+        <path d="M12 24C12 17.373 17.373 12 24 12C27.314 12 30.314 13.343 32.485 15.515" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M12 24H30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M12 24C12 30.627 17.373 36 24 36C27.314 36 30.314 34.657 32.485 32.485" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="36" cy="24" r="3" fill="white" opacity="0.6"/>
+      </svg>
+      <span class="header-brand-name">ellocharlie</span>
+      <span class="header-brand-tag">command center</span>
+    </a>
+
+    <div class="header-right">
+      <div class="header-status">
+        <span class="status-dot" id="brain-status-dot"></span>
+        <span id="brain-status-label">brain</span>
+      </div>
+
+      <div class="refresh-countdown" id="countdown">60s</div>
+
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshAll()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Refresh
+      </button>
+
+      <button class="btn-icon" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" data-theme-toggle>
+        <!-- Filled by JS -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Sidebar ─────────────────────────────────────────────── -->
+  <aside class="app-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Dashboard</div>
+      <ul class="sidebar-nav" role="list">
+        <li>
+          <a href="#section-issues" data-section="section-issues" class="active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Issues
+            <span class="sidebar-badge" id="issues-badge">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#section-agents" data-section="section-agents">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Agents
+          </a>
+        </li>
+        <li>
+          <a href="#section-growth" data-section="section-growth">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            Growth
+          </a>
+        </li>
+        <li>
+          <a href="#section-standup" data-section="section-standup">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Standup
+          </a>
+        </li>
+        <li>
+          <a href="#section-actions" data-section="section-actions">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Actions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Repos</div>
+      <ul class="sidebar-nav" role="list">
+        <li>
+          <a href="https://github.com/ellocharlie/ellocharlie.com" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ellocharlie.com
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ellocharlie/ellocharlie-agents" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            ellocharlie-agents
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ellocharlie/ellocharlie-engine" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            ellocharlie-engine
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ellocharlie/ellocharlie-content" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            ellocharlie-content
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Links</div>
+      <ul class="sidebar-nav" role="list">
+        <li>
+          <a href="http://localhost:7777" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            Brain API
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/orgs/ellocharlie" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub Org
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────────── -->
+  <main class="app-main">
+
+    <!-- ── Section 1: Issues Inbox ──────────────────────────── -->
+    <section class="dashboard-section" id="section-issues">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Issues Inbox</h2>
+          <div class="section-subtitle" id="issues-count">Loading...</div>
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-primary" onclick="openCreateIssueModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Issue
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <input class="filter-search" id="issue-search" type="text" placeholder="Search issues…" />
+        <select class="filter-select" id="filter-repo"><option value="all">All repos</option></select>
+        <select class="filter-select" id="filter-label"><option value="all">All labels</option></select>
+        <select class="filter-select" id="filter-assignee"><option value="all">All assignees</option></select>
+        <select class="filter-select" id="filter-state">
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="all">All states</option>
+        </select>
+        <span style="flex:1"></span>
+        <span style="font-size: var(--text-xs); color: var(--color-text-faint)">Sort:</span>
+        <button class="btn btn-ghost btn-sm sorted" data-sort="newest">Newest</button>
+        <button class="btn btn-ghost btn-sm" data-sort="oldest">Oldest</button>
+        <button class="btn btn-ghost btn-sm" data-sort="comments">Comments</button>
+      </div>
+
+      <div class="issues-container">
+        <table class="issues-table" aria-label="GitHub Issues">
+          <thead>
+            <tr>
+              <th style="width: 100px">Repo</th>
+              <th>Issue</th>
+              <th style="width: 180px">Labels</th>
+              <th style="width: 140px">Assignee</th>
+              <th style="width: 100px">Created</th>
+              <th style="width: 100px">Status</th>
+            </tr>
+          </thead>
+          <tbody id="issues-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ── Section 2: Agent Activity ───────────────────────── -->
+    <section class="dashboard-section" id="section-agents">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Agent Activity</h2>
+          <div class="section-subtitle">5 agents — brain API at localhost:7777</div>
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-secondary" onclick="openTriggerNudgeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Nudge agent
+          </button>
+        </div>
+      </div>
+
+      <div class="agents-grid" id="agents-grid">
+        <!-- Populated by JS -->
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ── Section 3: Growth Metrics ───────────────────────── -->
+    <section class="dashboard-section" id="section-growth">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Growth Metrics</h2>
+          <div class="section-subtitle">7% week-over-week target · From GROWTH.md milestones</div>
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-secondary btn-sm" onclick="editMetric('customers')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Update metrics
+          </button>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="kpi-card" id="kpi-customers">
+          <div class="kpi-label">Customers</div>
+          <div class="kpi-value">2</div>
+          <div class="kpi-delta delta-flat">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Week 0 baseline
+          </div>
+          <div class="kpi-target">→ 10 by end of Q2</div>
+          <div class="progress-bar"><div class="progress-fill" id="customer-progress" style="width:20%"></div></div>
+        </div>
+
+        <div class="kpi-card" id="kpi-mrr">
+          <div class="kpi-label">MRR</div>
+          <div class="kpi-value">$275</div>
+          <div class="kpi-delta delta-flat">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            $3,300 ARR
+          </div>
+          <div class="kpi-target">$55/seat · 2.5 seats avg</div>
+        </div>
+
+        <div class="kpi-card" id="kpi-wow">
+          <div class="kpi-label">WoW Growth</div>
+          <div class="kpi-value">0%</div>
+          <div class="kpi-delta delta-flat">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Baseline week
+          </div>
+          <div class="kpi-target">Target: 7%</div>
+        </div>
+
+        <div class="kpi-card" id="kpi-days">
+          <div class="kpi-label">Days Since Launch</div>
+          <div class="kpi-value">0</div>
+          <div class="kpi-delta delta-flat">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Week 0
+          </div>
+          <div class="kpi-target">Founded Apr 8, 2026</div>
+        </div>
+      </div>
+
+      <!-- Growth milestones from GROWTH.md -->
+      <div class="milestones-card">
+        <div class="section-header" style="margin-bottom: var(--space-3)">
+          <h3 style="font-family: var(--font-display); font-size: var(--text-base); font-weight: 700">Growth milestones</h3>
+          <span style="font-size: var(--text-xs); color: var(--color-text-faint)">From GROWTH.md</span>
+        </div>
+        <div id="milestones-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ── Section 4: Daily Standup ────────────────────────── -->
+    <section class="dashboard-section" id="section-standup">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Daily Standup</h2>
+          <div class="section-subtitle" id="standup-timestamp">Auto-generated from brain API</div>
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-secondary btn-sm" onclick="renderStandup()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Regenerate
+          </button>
+        </div>
+      </div>
+
+      <div class="standup-grid">
+        <!-- Agent updates -->
+        <div class="standup-card full-width">
+          <div class="standup-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            What happened in the last 24h
+          </div>
+          <div id="standup-updates">
+            <div class="skeleton skeleton-row" style="height: 36px; margin-bottom: 8px; border-radius: 6px"></div>
+            <div class="skeleton skeleton-row" style="height: 36px; margin-bottom: 8px; border-radius: 6px"></div>
+            <div class="skeleton skeleton-row" style="height: 36px; margin-bottom: 8px; border-radius: 6px"></div>
+          </div>
+        </div>
+
+        <!-- Blockers -->
+        <div class="standup-card">
+          <div class="standup-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-notification)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Blockers needing human attention
+          </div>
+          <div class="blocker-list" id="standup-blockers">
+            <div class="skeleton" style="height: 60px; border-radius: 8px; margin-bottom: 8px"></div>
+          </div>
+        </div>
+
+        <!-- Today's priorities -->
+        <div class="standup-card">
+          <div class="standup-card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-primary)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Today's priorities
+          </div>
+          <div class="priority-list" id="standup-priorities">
+            <div class="skeleton" style="height: 36px; border-radius: 6px; margin-bottom: 8px"></div>
+            <div class="skeleton" style="height: 36px; border-radius: 6px; margin-bottom: 8px"></div>
+            <div class="skeleton" style="height: 36px; border-radius: 6px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ── Section 5: Quick Actions ────────────────────────── -->
+    <section class="dashboard-section" id="section-actions">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Quick Actions</h2>
+          <div class="section-subtitle">Create issues, store memory, log decisions</div>
+        </div>
+      </div>
+
+      <div class="quick-actions-grid">
+        <button class="quick-action-card" onclick="openCreateIssueModal()">
+          <div class="quick-action-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div class="quick-action-title">Create Issue</div>
+          <div class="quick-action-desc">Open a GitHub issue in any ellocharlie repo.</div>
+        </button>
+
+        <button class="quick-action-card" onclick="openStoreMemoryModal()">
+          <div class="quick-action-icon" style="background: var(--color-gold-highlight); color: var(--color-gold)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div class="quick-action-title">Store Memory</div>
+          <div class="quick-action-desc">Write a key-value pair into the brain database.</div>
+        </button>
+
+        <button class="quick-action-card" onclick="openLogDecisionModal()">
+          <div class="quick-action-icon" style="background: var(--color-purple-highlight); color: var(--color-purple)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+          </div>
+          <div class="quick-action-title">Log Decision</div>
+          <div class="quick-action-desc">Record a decision with context and outcome.</div>
+        </button>
+
+        <button class="quick-action-card" onclick="openTriggerNudgeModal()">
+          <div class="quick-action-icon" style="background: var(--color-orange-highlight); color: var(--color-orange)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div class="quick-action-title">Trigger Nudge</div>
+          <div class="quick-action-desc">Send a nudge to any agent with an optional message.</div>
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Modals ──────────────────────────────────────────────── -->
+
+<!-- Create Issue -->
+<div class="modal-overlay" id="modal-create-issue" role="dialog" aria-modal="true" aria-labelledby="modal-issue-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-issue-title">Create GitHub Issue</h2>
+      <button class="btn-icon" onclick="closeModal('modal-create-issue')" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="issue-repo">Repository</label>
+        <select class="form-select" id="issue-repo">
+          <option value="ellocharlie.com">ellocharlie.com</option>
+          <option value="ellocharlie-agents">ellocharlie-agents</option>
+          <option value="ellocharlie-engine" selected>ellocharlie-engine</option>
+          <option value="ellocharlie-content">ellocharlie-content</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="issue-title">Title <span style="color:var(--color-notification)">*</span></label>
+        <input class="form-input" id="issue-title" type="text" placeholder="Brief, specific description of the issue" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="issue-body">Description</label>
+        <textarea class="form-textarea" id="issue-body" placeholder="Steps to reproduce, expected vs actual behavior, context…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="issue-labels">Labels</label>
+        <input class="form-input" id="issue-labels" type="text" placeholder="bug, enhancement, docs (comma-separated)" />
+        <span class="form-hint">Labels must already exist in the repo</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-create-issue')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitCreateIssue()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create issue
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Store Memory -->
+<div class="modal-overlay" id="modal-store-memory" role="dialog" aria-modal="true" aria-labelledby="modal-memory-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-memory-title">Store Memory</h2>
+      <button class="btn-icon" onclick="closeModal('modal-store-memory')" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="memory-agent">Agent</label>
+        <select class="form-select" id="memory-agent">
+          <option value="global">Global (all agents)</option>
+          <option value="ceo">CEO</option>
+          <option value="cto">CTO</option>
+          <option value="growth">Growth</option>
+          <option value="cx-lead">CX Lead</option>
+          <option value="ops">Ops</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="memory-key">Key <span style="color:var(--color-notification)">*</span></label>
+        <input class="form-input" id="memory-key" type="text" placeholder="e.g. customer_count, current_mrr" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="memory-value">Value <span style="color:var(--color-notification)">*</span></label>
+        <textarea class="form-textarea" id="memory-value" style="min-height: 80px" placeholder="The value to store"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-store-memory')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitStoreMemory()">Store memory</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Decision -->
+<div class="modal-overlay" id="modal-log-decision" role="dialog" aria-modal="true" aria-labelledby="modal-decision-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-decision-title">Log Decision</h2>
+      <button class="btn-icon" onclick="closeModal('modal-log-decision')" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="decision-title">Decision <span style="color:var(--color-notification)">*</span></label>
+        <input class="form-input" id="decision-title" type="text" placeholder="e.g. Switch CX channel from email to Slack" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="decision-context">Context</label>
+        <textarea class="form-textarea" id="decision-context" placeholder="Why this decision was needed, alternatives considered…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="decision-outcome">Outcome / Action <span style="color:var(--color-notification)">*</span></label>
+        <input class="form-input" id="decision-outcome" type="text" placeholder="What we decided to do" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-log-decision')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitLogDecision()">Log decision</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trigger Nudge -->
+<div class="modal-overlay" id="modal-trigger-nudge" role="dialog" aria-modal="true" aria-labelledby="modal-nudge-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-nudge-title">Trigger Nudge</h2>
+      <button class="btn-icon" onclick="closeModal('modal-trigger-nudge')" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="nudge-agent">Agent</label>
+        <select class="form-select" id="nudge-agent">
+          <option value="ceo">CEO</option>
+          <option value="cto">CTO</option>
+          <option value="growth">Growth</option>
+          <option value="cx-lead">CX Lead</option>
+          <option value="ops">Ops</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="nudge-message">Message (optional)</label>
+        <textarea class="form-textarea" id="nudge-message" style="min-height: 80px" placeholder="Any context or priority for this nudge…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-trigger-nudge')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitTriggerNudge()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Send nudge
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Metric -->
+<div class="modal-overlay" id="modal-edit-metric" role="dialog" aria-modal="true" aria-labelledby="edit-metric-label">
+  <div class="modal" style="max-width: 360px">
+    <div class="modal-header">
+      <h2 class="modal-title" id="edit-metric-label">Update metric</h2>
+      <button class="btn-icon" onclick="closeModal('modal-edit-metric')" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Value</label>
+        <input class="form-input" id="edit-metric-value" type="number" step="any" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-edit-metric')">Cancel</button>
+      <button class="btn btn-primary" id="edit-metric-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast container ──────────────────────────────────────── -->
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<script src="app.js"></script>
+
+<script>
+  // Brain API status check
+  (async function checkBrainStatus() {
+    const dot = document.getElementById('brain-status-dot');
+    const label = document.getElementById('brain-status-label');
+    try {
+      const res = await fetch('http://localhost:7777/health', { signal: AbortSignal.timeout(2000) });
+      if (res.ok) {
+        if (dot) { dot.className = 'status-dot'; }
+        if (label) label.textContent = 'brain online';
+      } else {
+        if (dot) dot.className = 'status-dot offline';
+        if (label) label.textContent = 'brain offline';
+      }
+    } catch {
+      if (dot) dot.className = 'status-dot offline';
+      if (label) label.textContent = 'brain offline';
+    }
+  })();
+</script>
+
+</body>
+</html>

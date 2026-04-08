@@ -1,0 +1,184 @@
+# ellocharlie workspace manifest
+# The single source of truth for the agent-driven company
+# Last updated: 2026-04-08
+
+org: ellocharlie
+domain: ellocharlie.com
+founded: 2026-04-08
+mission: "Stop startups from losing customers to broken processes."
+
+# ─── Team ────────────────────────────────────────────────────
+team:
+  humans:
+    nicholas:
+      role: Founder
+      focus: [strategy, product, customers, onboarding]
+      email: nicholas@ellocharlie.com
+      linkedin: https://linkedin.com/in/nicholasdr
+
+    kristine:
+      role: Founder
+      focus: [enterprise, partnerships, operations, last-mile]
+
+  agents:
+    ceo:
+      role: Chief Executive Officer
+      model: claude-sonnet-4-5
+      schedule: "0 9 * * 1-5"  # Weekdays 9am UTC
+      skills: [autoplan, benchmark, plan-ceo-review]
+      config: agents/ceo.yml
+
+    cto:
+      role: Chief Technology Officer
+      model: claude-sonnet-4-5
+      schedule: on-demand
+      trigger: pull_request
+      skills: [review, ship, design-review, plan-eng-review, drizzle-migrate, qa-only]
+      config: agents/cto.yml
+
+    growth:
+      role: Growth Lead
+      model: claude-sonnet-4-5
+      schedule: "0 10 * * 1,3,5"  # Mon/Wed/Fri
+      skills: [autoplan, benchmark]
+      content_tools: [mirofish, paperclip]
+      config: agents/growth.yml
+
+    cx-lead:
+      role: Customer Experience Lead
+      model: claude-sonnet-4-5
+      schedule: always-on
+      trigger: new_ticket
+      skills: [cx-triage, cx-respond, cx-escalate, attio-sync, investigate]
+      sla:
+        first_response: 15m
+        resolution: 4h
+      config: agents/cx-lead.yml
+
+    ops:
+      role: Operations Engineer
+      model: claude-sonnet-4-5
+      schedule: always-on
+      trigger: deploy_request
+      skills: [ship, canary, gcr-deploy, neon-ops, benchmark]
+      deploy_policy:
+        canary_percentage: 5
+        canary_duration: 30m
+      config: agents/ops.yml
+
+# ─── Repositories ────────────────────────────────────────────
+repos:
+  ellocharlie.com:
+    type: site
+    path: modules/site
+    url: https://github.com/ellocharlie/ellocharlie.com
+    description: Marketing landing page (Astro)
+    owner: growth
+    deploy: github-pages
+    status: active
+
+  ellocharlie-agents:
+    type: skills
+    path: modules/agents
+    url: https://github.com/ellocharlie/ellocharlie-agents
+    description: Multi-agent engineering & CX platform (18 skills, ecforge CLI)
+    owner: cto
+    status: active
+
+  ellocharlie-engine:
+    type: controller
+    path: .
+    url: https://github.com/ellocharlie/ellocharlie-engine
+    description: Superrepo — brain, dashboard, orchestrator, index builder
+    owner: nicholas
+    status: active
+
+  ellocharlie-content:
+    type: content
+    path: modules/content
+    url: https://github.com/ellocharlie/ellocharlie-content
+    description: Blog & content engine (MDX, agent-generated pipeline)
+    owner: growth
+    status: active
+
+# ─── KPIs ────────────────────────────────────────────────────
+kpis:
+  growth:
+    target_wow: 7%  # Week-over-week customer growth
+    metric: customer_count
+    source: brain/memory
+
+  revenue:
+    target_mrr: track  # Track against GROWTH.md milestones
+    blended_arpu: $137.50  # $55/seat × 2.5 seats/customer
+
+  cx:
+    first_response_sla: 15m
+    resolution_sla: 4h
+    nps_target: 70
+    churn_target: "<2%/month"
+
+  engineering:
+    deploy_frequency: daily
+    canary_policy: mandatory
+    review_coverage: 100%
+
+  content:
+    blog_cadence: 3/week
+    seo_target: "100 articles by month 12"
+
+# ─── OKRs (Q2 2026) ─────────────────────────────────────────
+okrs:
+  q2_2026:
+    - objective: "Land first 10 customers through personal network"
+      key_results:
+        - "10 paying customers by end of Q2"
+        - "NPS > 70 across all customers"
+        - "< 24 hour time-to-value for every customer"
+        - "3 detailed case studies published"
+      owner: nicholas
+
+    - objective: "Ship Phase 1 CX platform"
+      key_results:
+        - "Email + Slack channels live"
+        - "Knowledge base with 20+ articles"
+        - "AI triage operational with >80% accuracy"
+        - "Account health scoring live"
+      owner: cto
+
+    - objective: "Build content engine and SEO foundation"
+      key_results:
+        - "36 blog posts published (3/week × 12 weeks)"
+        - "Open-source agent framework at 500+ GitHub stars"
+        - "10 backlinks from SaaS/startup publications"
+      owner: growth
+
+# ─── Brain ───────────────────────────────────────────────────
+brain:
+  engine: python
+  port: 7777
+  database: brain/data/brain.db
+  skills_dir: brain/skills/
+  learning_loop: enabled
+  nudge_interval: 4h  # Check every 4 hours during active sessions
+
+# ─── Dashboard ───────────────────────────────────────────────
+dashboard:
+  path: dashboard/
+  port: 3333
+  github_org: ellocharlie
+  refresh_interval: 60s
+
+# ─── Infrastructure ──────────────────────────────────────────
+infrastructure:
+  app:
+    url: https://app.ellocharlie.com
+    deploy: google-cloud-run
+    auth: clerk
+    database: neon-postgres
+    storage: cloudflare-r2
+  site:
+    url: https://www.ellocharlie.com
+    deploy: github-pages
+  status:
+    url: https://status.ellocharlie.com
