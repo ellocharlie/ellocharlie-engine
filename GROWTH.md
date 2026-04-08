@@ -144,7 +144,7 @@ Nicholas spent eight years building ShipHero into a WMS trusted by thousands of 
 
 Beyond ShipHero: the Code and Theory network (senior leaders at major brands and agencies), the NBPA network (sports business executives and operators), the Digitas/Publicis network (enterprise marketing leaders who have gone on to found companies), and Packiyo customers (WMS operators who understand operational infrastructure).
 
-Kristine's network is complementary and non-overlapping: IBM alumni who are now in CTO and CDO roles at growth-stage companies, enterprise technology executives who have watched startups fail because they chose tools designed for Fortune 500 procurement processes, and startup founders she has connected with across her career in the "final mile" of technology adoption.
+Cristine's network is complementary and non-overlapping: tech veterans from IBM and fast-moving startups, enterprise technology executives who have watched companies fail because they chose tools designed for Fortune 500 procurement processes, and founders she has connected with across her career in the final mile of technology adoption.
 
 The first 10 customers should come entirely from these networks. Not cold outreach. Warm introductions. Real conversations about real problems. The kind where you already know the person's situation before you pitch, because you worked with them for three years.
 
@@ -231,7 +231,7 @@ These case studies serve three purposes: they give prospective customers a proof
 
 ### Retention in Phase 2
 
-- **Health scoring** automatically identifies accounts that are at risk based on usage patterns, support ticket volume, and login frequency. The CX Lead Agent surfaces these to Kristine before the customer knows they're unhappy.
+- **Health scoring** automatically identifies accounts that are at risk based on usage patterns, support ticket volume, and login frequency. The CX Lead Agent surfaces these to Cristine before the customer knows they're unhappy.
 - **Automated onboarding workflows** reduce time-to-value from days to hours. The customer who reaches their first activation milestone in under 24 hours is dramatically more likely to stay.
 - **Knowledge base with AI search** reduces tier-1 support load by giving customers the answer before they open a ticket.
 - **Product intelligence** — every feature request from every customer feeds into a prioritization model. Customers who see their requests shipped stay. This is the most underrated retention lever in SaaS.
@@ -240,7 +240,7 @@ These case studies serve three purposes: they give prospective customers a proof
 
 ## Phase 3: 100 to 1,000+ Customers (Weeks 58–92)
 
-The "product-led growth" phase. At this point, the growth engine is no longer driven by Nicholas and Kristine personally — it's driven by the product, the content, and the community working in concert.
+The "product-led growth" phase. At this point, the growth engine is no longer driven by Nicholas and Cristine personally — it's driven by the product, the content, and the community working in concert.
 
 ### Acquisition Channels
 
@@ -360,5 +360,5 @@ Paul Graham said do things that don't scale. We're doing that. We're also buildi
 
 *This document is reviewed by the CEO Agent weekly and updated when material assumptions change.*
 
-*Nicholas Daniel-Richards & Kristine*  
+*Nicholas Daniel-Richards & Cristine*  
 *ellocharlie, New York, 2026*

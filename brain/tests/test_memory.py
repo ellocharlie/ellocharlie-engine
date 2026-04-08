@@ -249,10 +249,10 @@ def test_start_session_creates_row():
 
 def test_end_session_sets_ended_at_and_summary():
     """end_session() must populate ended_at and summary."""
-    session = start_session("kristine")
-    ended = end_session(session["id"], summary="Reviewed enterprise pipeline with Kristine")
+    session = start_session("cristine")
+    ended = end_session(session["id"], summary="Reviewed enterprise pipeline with Cristine")
     assert ended["ended_at"] is not None
-    assert ended["summary"] == "Reviewed enterprise pipeline with Kristine"
+    assert ended["summary"] == "Reviewed enterprise pipeline with Cristine"
 
 
 def test_end_session_without_summary_uses_placeholder():

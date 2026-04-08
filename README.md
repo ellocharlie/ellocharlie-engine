@@ -18,7 +18,7 @@
 
 Every company has the same problem, and most don't notice it until a customer is already gone. The deal closes. The handoff from sales happens — or doesn't. The customer lands in a support queue that knows nothing about the sales conversation. Three weeks later they churn and everyone is surprised.
 
-Nicholas Daniel-Richards and Kristine built ellocharlie because they've watched this happen too many times, at companies of every size. Nicholas spent eight years building ShipHero and Packiyo, watching warehouse operations collapse not from bad engineering but from tools that refused to talk to each other. Kristine spent years at IBM and inside Amazon's early infrastructure, learning that the gap between what enterprise technology promises and what a real human actually experiences at 2pm on a Tuesday is where companies live or die.
+Nicholas Daniel-Richards and Cristine built ellocharlie because they've watched this happen too many times, at companies of every size. Nicholas spent eight years building ShipHero and Packiyo, watching warehouse operations collapse not from bad engineering but from tools that refused to talk to each other. Cristine spent years entangled with tech and fast-moving startups — from IBM to companies serving customers like Jeff Bezos — learning that the gap between what enterprise technology promises and what a real human actually experiences at 2pm on a Tuesday is where companies live or die.
 
 ellocharlie is the unified CX platform for companies with 2 to 500 employees — CRM, helpdesk, knowledge base, onboarding, and health monitoring in one system. Not duct-taped together. Actually unified. Five AI agents run the operations so the humans can focus on the work that machines genuinely cannot do. Read [MEMO.md](MEMO.md) for the full founding story.
 
@@ -40,7 +40,7 @@ ellocharlie is the unified CX platform for companies with 2 to 500 employees —
 
 **Nicholas Daniel-Richards** — Founder. 20+ years building digital platforms: ShipHero (warehouse management at scale), the National Basketball Players Association, Code and Theory, Packiyo. Handles product, strategy, and every customer conversation for the first 10. The one who answers the phone.
 
-**Kristine** — Founder. Enterprise tech veteran with time at IBM and inside Jeff Bezos's Amazon before it became what it is today. Bridges the gap between what technology promises and what customers actually experience. The last-mile obsession is baked into every CX decision we make.
+**Cristine** — Founder. Always entangled with tech and fast-moving startups — from early IBM to startups with customers like Jeff Bezos. Bridges the gap between what technology promises and what customers actually experience. The last-mile obsession is baked into every CX decision we make.
 
 **CEO Agent** — Tracks whether we're doing what we said we'd do. Runs weekday mornings at 9am. Reviews the growth numbers, flags drift between strategy and execution, and drafts investor updates when the time comes.
 
@@ -56,7 +56,7 @@ ellocharlie is the unified CX platform for companies with 2 to 500 employees —
 
 ## For Founders: How to Run Your Company
 
-This section is for Nicholas and Kristine.
+This section is for Nicholas and Cristine.
 
 ### Check on the company
 
@@ -249,7 +249,7 @@ Our voice is professional, empathetic, and data-driven. Not corporate. Not buzzw
 
 <div align="center">
 
-Built by Nicholas Daniel-Richards & Kristine.<br>
+Built by Nicholas Daniel-Richards & Cristine.<br>
 New York, 2026.
 
 *"Stop losing customers to broken processes."*

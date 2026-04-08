@@ -359,7 +359,7 @@ def test_periodic_review_reviewed_at_is_iso_datetime():
     """'reviewed_at' must be an ISO-format datetime string."""
     from datetime import datetime
 
-    result = periodic_review("kristine")
+    result = periodic_review("cristine")
     reviewed_at = result["reviewed_at"]
     # Should not raise
     dt = datetime.fromisoformat(reviewed_at)

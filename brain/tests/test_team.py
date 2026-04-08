@@ -22,8 +22,8 @@ from brain.team import (
 # TEAM dict — structure and completeness
 # ---------------------------------------------------------------------------
 
-EXPECTED_MEMBERS = {"nicholas", "kristine", "ceo", "cto", "growth", "cx-lead", "ops"}
-EXPECTED_HUMANS = {"nicholas", "kristine"}
+EXPECTED_MEMBERS = {"nicholas", "cristine", "ceo", "cto", "growth", "cx-lead", "ops"}
+EXPECTED_HUMANS = {"nicholas", "cristine"}
 EXPECTED_AGENTS = {"ceo", "cto", "growth", "cx-lead", "ops"}
 
 
@@ -54,8 +54,8 @@ def test_member_types_are_human_or_agent():
         )
 
 
-def test_human_members_are_nicholas_and_kristine():
-    """nicholas and kristine must be the only human-type members."""
+def test_human_members_are_nicholas_and_cristine():
+    """nicholas and cristine must be the only human-type members."""
     humans = {k for k, v in TEAM.items() if v["type"] == "human"}
     assert humans == EXPECTED_HUMANS
 
@@ -237,7 +237,7 @@ def test_agents_and_humans_cover_all_members():
 
 @pytest.mark.parametrize("member_id,expected_role", [
     ("nicholas", "Founder"),
-    ("kristine", "Founder"),
+    ("cristine", "Founder"),
     ("ceo", "Chief Executive Officer"),
     ("cto", "Chief Technology Officer"),
     ("growth", "Growth Lead"),
@@ -251,7 +251,7 @@ def test_member_roles(member_id, expected_role):
 
 @pytest.mark.parametrize("member_id,expected_type", [
     ("nicholas", "human"),
-    ("kristine", "human"),
+    ("cristine", "human"),
     ("ceo", "agent"),
     ("cto", "agent"),
     ("growth", "agent"),

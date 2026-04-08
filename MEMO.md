@@ -12,7 +12,7 @@ We've both watched this happen more times than we can count. At companies with t
 
 Nicholas built ShipHero from a sketch on a napkin to a warehouse management system trusted by thousands of e-commerce brands. He knows what it looks like when systems break under scale — not because of bad engineering, but because the tools that handle sales never talked to the tools that handle support, which never talked to the tools that tracked the customer's health. He spent years at Code and Theory building digital infrastructure for some of the most demanding clients in the world. He went inside the National Basketball Players Association and saw a different kind of organizational complexity — high-stakes relationships, public accountability, zero tolerance for dropped balls. At Packiyo, he built a modern WMS from scratch, and every decision came back to the same problem: the data lives in silos, and the people who need it most are the last to get it.
 
-Kristine was at IBM when IBM was *the* technology company. Not a technology company. The one. She worked alongside people like Jeff Bezos when Amazon was still figuring out what it would become. She saw, from the inside, how large organizations actually adopt technology — the politics, the inertia, the gap between what gets promised in a boardroom and what gets used by an actual human being at 2pm on a Tuesday. She spent years at the frontier of enterprise systems, and what she learned is this: the last mile is everything. You can build the most sophisticated platform in the world and lose at the last mile — the moment when a real customer tries to get something done.
+Cristine has been entangled with tech and fast-moving startups her entire career — from early work at IBM when it was *the* technology company to startups serving customers like Jeff Bezos in the final leg of building out their infrastructure. She saw, from the inside, how large organizations actually adopt technology — the politics, the inertia, the gap between what gets promised in a boardroom and what gets used by an actual human being at 2pm on a Tuesday. She spent years at the frontier of enterprise systems and early-stage companies, and what she learned is this: the last mile is everything. You can build the most sophisticated platform in the world and lose at the last mile — the moment when a real customer tries to get something done.
 
 We've been in rooms where this was discussed as a technology problem. We've been in rooms where it was discussed as a process problem. We've been in rooms where consultants charged $500 an hour to explain why the CRM didn't talk to the helpdesk.
 
@@ -68,7 +68,7 @@ Systems thinking for human relationships. This is what ellocharlie is built on.
 
 ## How We Work
 
-We are two founders. Nicholas and Kristine.
+We are two founders. Nicholas and Cristine.
 
 We also have five agents.
 
@@ -78,7 +78,7 @@ We also have five agents.
 
 **The Growth Agent** produces content, manages the SEO strategy, analyzes acquisition channels, and runs the build-in-public pipeline. Three blog posts a week. Case studies. Open-source documentation. It works; we ship.
 
-**The CX Lead Agent** monitors every customer interaction, tracks health scores, surfaces at-risk accounts, and ensures our 15-minute first-response SLA holds at every stage of growth. Kristine's background — that last-mile obsession — is encoded into the agent's logic.
+**The CX Lead Agent** monitors every customer interaction, tracks health scores, surfaces at-risk accounts, and ensures our 15-minute first-response SLA holds at every stage of growth. Cristine's background — that last-mile obsession — is encoded into the agent's logic.
 
 **The Ops Agent** handles deploys, monitors infrastructure, manages incidents, and keeps the system running. The thing that should never page us at 3am because a deploy went wrong is the thing we've invested the most automation in.
 
@@ -126,6 +126,6 @@ With empathy. With rigor. And with no tolerance for systems that let your custom
 
 ---
 
-*Nicholas Daniel-Richards & Kristine*  
+*Nicholas Daniel-Richards & Cristine*  
 *Founders, ellocharlie*  
 *New York, 2026*

@@ -3,7 +3,7 @@ brain.team
 ----------
 Team member profiles for the ellocharlie agent-driven company.
 
-Two human founders (Nicholas, Kristine) + five specialised agents.
+Two human founders (Nicholas, Cristine) + five specialised agents.
 Each profile describes role, type (human | agent), areas of focus,
 active schedule, and — for agents — the LLM model to use.
 """
@@ -21,7 +21,7 @@ TEAM: dict[str, dict[str, Any]] = {
         "focus": ["strategy", "product", "customers", "onboarding"],
         "schedule": "always",
     },
-    "kristine": {
+    "cristine": {
         "role": "Founder",
         "type": "human",
         "focus": ["enterprise", "partnerships", "operations", "last-mile"],

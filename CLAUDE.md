@@ -40,7 +40,7 @@ Read these before doing anything substantive:
 
 | File | Purpose |
 |------|---------|
-| `MEMO.md` | The founding memo. Explains why ellocharlie exists, the five beliefs, and how Nicholas and Kristine think about customers and systems. This is the voice of the company. |
+| `MEMO.md` | The founding memo. Explains why ellocharlie exists, the five beliefs, and how Nicholas and Cristine think about customers and systems. This is the voice of the company. |
 | `GROWTH.md` | The growth playbook. 7% WoW from 2 customers, full compound model, phase-by-phase acquisition strategy. Every growth-related decision is made against this document. |
 
 If you're writing content, making product decisions, or adjusting agent behavior — MEMO.md and GROWTH.md are the calibration baseline.

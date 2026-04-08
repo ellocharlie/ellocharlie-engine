@@ -440,17 +440,17 @@ async def test_post_sessions_creates_session(client):
 @pytest.mark.anyio
 async def test_put_sessions_end(client):
     """PUT /sessions/{id}/end must close the session with a summary."""
-    create_resp = await client.post("/sessions", json={"team_member": "kristine"})
+    create_resp = await client.post("/sessions", json={"team_member": "cristine"})
     session_id = create_resp.json()["id"]
 
     end_resp = await client.put(
         f"/sessions/{session_id}/end",
-        json={"summary": "Reviewed enterprise pipeline with Kristine"}
+        json={"summary": "Reviewed enterprise pipeline with Cristine"}
     )
     assert end_resp.status_code == 200
     data = end_resp.json()
     assert data["ended_at"] is not None
-    assert data["summary"] == "Reviewed enterprise pipeline with Kristine"
+    assert data["summary"] == "Reviewed enterprise pipeline with Cristine"
 
 
 @pytest.mark.anyio

@@ -1,3 +1,12 @@
+// In-memory store (sessionStorage replacement for sandboxed environments)
+window.__ecStore = (() => {
+  const data = {};
+  return {
+    get: (k) => data[k] || null,
+    set: (k, v) => { data[k] = v; },
+  };
+})();
+
 /* ────────────────────────────────────────────────────────────
    ellocharlie command center — dashboard logic
    GitHub API + Brain API (port 7777) integration
@@ -65,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function checkToken() {
-  const stored = sessionStorage.getItem('gh_token');
+  const stored = window.__ecStore?.get('gh_token');
   if (stored) {
     state.token = stored;
     bootDashboard();
@@ -90,7 +99,7 @@ window.submitToken = function () {
   if (!val) return showToast('Please enter a GitHub token', 'error');
   if (!val.startsWith('gh')) return showToast('Token should start with "gh"', 'error');
   state.token = val;
-  sessionStorage.setItem('gh_token', val);
+  window.__ecStore?.set('gh_token', val);
   hideTokenGate();
   bootDashboard();
 };
@@ -113,7 +122,7 @@ function bootDashboard() {
 
 // ── Theme ───────────────────────────────────────────────────
 function initTheme() {
-  const stored = sessionStorage.getItem('theme');
+  const stored = window.__ecStore?.get('theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = stored || (prefersDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', theme);
@@ -124,7 +133,7 @@ window.toggleTheme = function () {
   const current = document.documentElement.getAttribute('data-theme');
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
-  sessionStorage.setItem('theme', next);
+  window.__ecStore?.set('theme', next);
   updateThemeToggle(next);
 };
 
@@ -451,7 +460,7 @@ async function loadBrainData() {
 
 // ── Growth Metrics ──────────────────────────────────────────
 function loadMetricsFromStorage() {
-  const saved = sessionStorage.getItem('ec_metrics');
+  const saved = window.__ecStore?.get('ec_metrics');
   if (saved) {
     try { state.metrics = { ...state.metrics, ...JSON.parse(saved) }; } catch {}
   }
@@ -513,7 +522,7 @@ window.editMetric = function (metric) {
   const label = metric === 'mrr' ? 'MRR ($)' : metric === 'wow' ? 'WoW Growth (%)' : 'Customer Count';
   openInputModal(`Update ${label}`, current, (val) => {
     state.metrics[metric] = parseFloat(val) || 0;
-    sessionStorage.setItem('ec_metrics', JSON.stringify(state.metrics));
+    window.__ecStore?.set('ec_metrics', JSON.stringify(state.metrics));
     renderGrowthMetrics();
     showToast(`${label} updated`, 'success');
   });
