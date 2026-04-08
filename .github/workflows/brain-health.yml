@@ -1,0 +1,28 @@
+name: Brain Health Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'  # Weekdays 9am UTC
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: cd brain && pip install -e .
+      - run: |
+          python -c "
+          from brain.db import init_db
+          init_db()
+          print('Brain database initialized successfully')
+          from brain.team import TEAM
+          print(f'Team members: {len(TEAM)}')
+          from brain.skills import list_skills
+          skills = list_skills()
+          print(f'Skills loaded: {len(skills)}')
+          print('Health check passed')
+          "
