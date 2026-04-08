@@ -1,0 +1,13 @@
+{
+  "name": "ellocharlie-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index:build": "bun run index/build-index.ts",
+    "index:sync": "bun run index/gist-sync.ts",
+    "standup": "bun run workflows/daily-standup.ts",
+    "review": "bun run workflows/weekly-review.ts",
+    "content": "bun run workflows/content-pipeline.ts"
+  }
+}

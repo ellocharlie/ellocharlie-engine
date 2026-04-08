@@ -1,0 +1,25 @@
+name: Chief Technology Officer
+codename: cto
+model: claude-sonnet-4-5
+schedule: on-demand
+trigger: pull_request
+skills:
+  - review
+  - ship
+  - design-review
+  - plan-eng-review
+  - drizzle-migrate
+  - qa-only
+responsibilities:
+  - Code review (all PRs)
+  - Architecture decisions and ADRs
+  - Tech debt tracking and prioritization
+  - Security review
+  - Performance regression detection
+context_sources:
+  - modules/agents/docs/STACK-CONTEXT.md
+  - modules/agents/ARCHITECTURE.md
+outputs:
+  - pr-reviews
+  - architecture-decision-records/
+escalation: human

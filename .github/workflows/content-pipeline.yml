@@ -1,0 +1,119 @@
+name: Content Pipeline
+
+on:
+  schedule:
+    # Mon, Wed, Fri at 10am UTC (matches growth agent schedule)
+    - cron: "0 10 * * 1,3,5"
+  # Allow manual trigger with optional topic override
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "Override: manually specify a topic to draft (leave empty to pick from backlog)"
+        required: false
+        default: ""
+        type: string
+      dry_run:
+        description: "Dry run (skip commit and push)"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  content-pipeline:
+    name: Run Content Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run content pipeline
+        run: bun run content
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CONTENT_TOPIC_OVERRIDE: ${{ github.event.inputs.topic }}
+
+      - name: Show pipeline output
+        run: |
+          echo "=== Backlog state ==="
+          cat modules/content/calendar/backlog.md || echo "(backlog not found)"
+          echo ""
+          echo "=== Recent drafts ==="
+          ls -lt modules/content/blog-drafts/ 2>/dev/null | head -10 || echo "(no drafts yet)"
+
+      - name: Commit pipeline changes
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config --local user.email "engine@ellocharlie.com"
+          git config --local user.name "ellocharlie-engine[bot]"
+          DATE=$(date -u +%Y-%m-%d)
+          git add modules/content/ || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "ci(content): content pipeline run ${DATE}"
+            git push
+          fi
+
+      - name: Upload draft artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-drafts-${{ github.run_id }}
+          path: modules/content/blog-drafts/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  # After pipeline runs, trigger index rebuild to keep manifest current
+  rebuild-index:
+    name: Rebuild Org Index
+    runs-on: ubuntu-latest
+    needs: content-pipeline
+    if: ${{ github.event.inputs.dry_run != 'true' && success() }}
+
+    steps:
+      - name: Checkout repo with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Pull latest (post-commit)
+        run: git pull --rebase
+
+      - name: Build index
+        run: bun run index:build
+
+      - name: Sync to Gist
+        run: bun run index:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIST_TOKEN }}
+
+      - name: Commit updated manifest
+        run: |
+          git config --local user.email "engine@ellocharlie.com"
+          git config --local user.name "ellocharlie-engine[bot]"
+          git add index/manifest.json index/.gist-id || true
+          if git diff --staged --quiet; then
+            echo "Manifest unchanged"
+          else
+            git commit -m "ci(index): rebuild manifest after content pipeline"
+            git push
+          fi

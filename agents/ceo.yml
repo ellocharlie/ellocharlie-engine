@@ -1,0 +1,21 @@
+name: Chief Executive Officer
+codename: ceo
+model: claude-sonnet-4-5
+schedule: "0 9 * * 1-5"  # Weekdays 9am UTC
+skills:
+  - autoplan
+  - benchmark
+  - plan-ceo-review
+responsibilities:
+  - Market analysis and competitive intelligence
+  - OKR setting and quarterly planning
+  - Investor update drafts
+  - Strategic pivot evaluation
+  - Content approval (positioning/messaging)
+context_sources:
+  - modules/content/metrics/
+  - modules/agents/docs/STACK-CONTEXT.md
+outputs:
+  - weekly-priorities.md
+  - investor-update-draft.md
+escalation: human

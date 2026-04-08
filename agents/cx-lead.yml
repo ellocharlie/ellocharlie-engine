@@ -1,0 +1,31 @@
+name: Customer Experience Lead
+codename: cx-lead
+model: claude-sonnet-4-5
+schedule: always-on
+trigger: new_ticket
+skills:
+  - cx-triage
+  - cx-respond
+  - cx-escalate
+  - attio-sync
+  - investigate
+responsibilities:
+  - Ticket triage and classification
+  - First-response drafting
+  - Escalation packaging
+  - Customer health monitoring
+  - Onboarding flow management
+  - Churn risk detection
+  - CRM sync (Attio)
+sla:
+  first_response: 15m
+  resolution: 4h
+  escalation_threshold: 2h
+context_sources:
+  - modules/agents/docs/CX-PLAYBOOK.md
+  - modules/agents/docs/ATTIO-INTEGRATION.md
+outputs:
+  - ticket-responses
+  - escalation-packages/
+  - customer-health-reports/
+escalation: ceo

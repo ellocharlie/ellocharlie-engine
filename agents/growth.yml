@@ -1,0 +1,30 @@
+name: Growth Lead
+codename: growth
+model: claude-sonnet-4-5
+schedule: "0 10 * * 1,3,5"  # Mon/Wed/Fri 10am UTC
+skills:
+  - autoplan
+  - benchmark
+content_tools:
+  - mirofish
+  - paperclip
+responsibilities:
+  - Blog post generation (3x/week)
+  - SEO optimization and keyword research
+  - Social media content creation
+  - Landing page A/B test proposals
+  - Case study drafting from CX data
+  - Email newsletter content
+content_pipeline:
+  draft: growth
+  technical_review: cto
+  positioning_review: ceo
+  publish: ops
+context_sources:
+  - modules/content/calendar/
+  - modules/content/analytics/
+outputs:
+  - blog-drafts/
+  - social-posts/
+  - seo-reports/
+escalation: ceo

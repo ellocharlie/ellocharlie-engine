@@ -1,0 +1,30 @@
+name: Operations Engineer
+codename: ops
+model: claude-sonnet-4-5
+schedule: always-on
+trigger: deploy_request | alert
+skills:
+  - ship
+  - canary
+  - gcr-deploy
+  - neon-ops
+  - benchmark
+responsibilities:
+  - CI/CD pipeline management
+  - Canary deployments
+  - Infrastructure monitoring
+  - Database operations (Neon)
+  - Incident response
+  - Content deployment (Astro rebuilds)
+  - Performance monitoring
+deploy_policy:
+  canary_percentage: 5
+  canary_duration: 30m
+  rollback: automatic_on_error_spike
+context_sources:
+  - modules/agents/docs/STACK-CONTEXT.md
+outputs:
+  - deploy-logs/
+  - incident-reports/
+  - performance-dashboards/
+escalation: cto

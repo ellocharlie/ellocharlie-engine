@@ -1,0 +1,61 @@
+name: Daily Standup
+
+on:
+  schedule:
+    # Weekdays at 9am UTC
+    - cron: "0 9 * * 1-5"
+  # Allow manual trigger from the Actions UI
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (skip commit)"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  standup:
+    name: Generate Daily Standup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run daily standup
+        run: bun run standup
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit standup summary
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config --local user.email "engine@ellocharlie.com"
+          git config --local user.name "ellocharlie-engine[bot]"
+          DATE=$(date -u +%Y-%m-%d)
+          git add standup/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "ci(standup): daily standup ${DATE}"
+            git push
+          fi
+
+      - name: Upload standup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: standup-${{ github.run_id }}
+          path: standup/
+          retention-days: 30

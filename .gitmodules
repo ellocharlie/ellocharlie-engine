@@ -1,0 +1,11 @@
+[submodule "modules/site"]
+  path = modules/site
+  url = https://github.com/ellocharlie/ellocharlie.com.git
+
+[submodule "modules/agents"]
+  path = modules/agents
+  url = https://github.com/ellocharlie/ellocharlie-agents.git
+
+[submodule "modules/content"]
+  path = modules/content
+  url = https://github.com/ellocharlie/ellocharlie-content.git

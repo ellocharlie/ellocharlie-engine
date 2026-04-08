@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+*.local
+
+# Bun
+bun.lockb
+
+# Generated — regenerate with bun run index:build
+# index/manifest.json  ← tracked intentionally
+
+# Gist ID is tracked so subsequent CI runs update the right Gist
+# index/.gist-id       ← tracked intentionally
+
+# Output directories (tracked for history)
+# standup/             ← tracked intentionally
+# reviews/             ← tracked intentionally
