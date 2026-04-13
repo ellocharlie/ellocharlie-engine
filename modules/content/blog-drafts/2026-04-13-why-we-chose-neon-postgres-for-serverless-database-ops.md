@@ -1,12 +1,12 @@
 ---
-title: "How we built a 5-person company powered by AI agents"
-slug: how-we-built-a-5-person-company-powered-by-ai-agents
-stage: technical-review
-assignedAgent: ceo
-tags: ["agents", "startup"]
-created: 2026-04-10T10:53:02.949Z
-updated: 2026-04-13T11:16:30.595Z
-reviewedBy: ["growth"]
+title: "Why we chose Neon Postgres for serverless database ops"
+slug: why-we-chose-neon-postgres-for-serverless-database-ops
+stage: draft
+assignedAgent: growth
+tags: ["postgres", "neon", "infrastructure"]
+created: 2026-04-13T11:16:30.596Z
+updated: 2026-04-13T11:16:30.596Z
+reviewedBy: []
 ---
 
 ## Brief
