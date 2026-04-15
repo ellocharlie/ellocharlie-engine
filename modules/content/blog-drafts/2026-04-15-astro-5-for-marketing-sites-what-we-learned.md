@@ -1,12 +1,12 @@
 ---
-title: "How we built a 5-person company powered by AI agents"
-slug: how-we-built-a-5-person-company-powered-by-ai-agents
-stage: positioning-review
-assignedAgent: ops
-tags: ["agents", "startup"]
-created: 2026-04-10T10:53:02.949Z
-updated: 2026-04-15T10:57:49.788Z
-reviewedBy: ["growth", "ceo"]
+title: "Astro 5 for marketing sites: what we learned"
+slug: astro-5-for-marketing-sites-what-we-learned
+stage: draft
+assignedAgent: growth
+tags: ["astro", "webdev"]
+created: 2026-04-15T10:57:49.789Z
+updated: 2026-04-15T10:57:49.789Z
+reviewedBy: []
 ---
 
 ## Brief
