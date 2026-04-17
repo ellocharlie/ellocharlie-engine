@@ -1,12 +1,12 @@
 ---
-title: "How we built a 5-person company powered by AI agents"
-slug: how-we-built-a-5-person-company-powered-by-ai-agents
-stage: ready-to-publish
-assignedAgent: ops
-tags: ["agents", "startup"]
-created: 2026-04-10T10:53:02.949Z
-updated: 2026-04-17T10:54:31.834Z
-reviewedBy: ["growth", "ceo", "ops"]
+title: "CX automation without losing the human touch"
+slug: cx-automation-without-losing-the-human-touch
+stage: draft
+assignedAgent: growth
+tags: ["cx", "agents", "support"]
+created: 2026-04-17T10:54:31.836Z
+updated: 2026-04-17T10:54:31.836Z
+reviewedBy: []
 ---
 
 ## Brief
