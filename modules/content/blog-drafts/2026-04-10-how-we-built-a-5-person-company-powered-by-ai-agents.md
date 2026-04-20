@@ -1,11 +1,11 @@
 ---
 title: "How we built a 5-person company powered by AI agents"
 slug: how-we-built-a-5-person-company-powered-by-ai-agents
-stage: ready-to-publish
+stage: published
 assignedAgent: ops
 tags: ["agents", "startup"]
 created: 2026-04-10T10:53:02.949Z
-updated: 2026-04-17T10:54:31.834Z
+updated: 2026-04-20T11:17:59.992Z
 reviewedBy: ["growth", "ceo", "ops"]
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "CX automation without losing the human touch"
-slug: cx-automation-without-losing-the-human-touch
-stage: technical-review
-assignedAgent: ceo
-tags: ["cx", "agents", "support"]
-created: 2026-04-17T10:54:31.836Z
+title: "Canary deployments on Google Cloud Run"
+slug: canary-deployments-on-google-cloud-run
+stage: draft
+assignedAgent: growth
+tags: ["deployment", "gcr", "devops"]
+created: 2026-04-20T11:17:59.994Z
 updated: 2026-04-20T11:17:59.994Z
-reviewedBy: ["growth"]
+reviewedBy: []
 ---
 
 ## Brief
