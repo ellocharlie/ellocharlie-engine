@@ -1,11 +1,11 @@
 ---
 title: "Why we chose Neon Postgres for serverless database ops"
 slug: why-we-chose-neon-postgres-for-serverless-database-ops
-stage: ready-to-publish
+stage: published
 assignedAgent: ops
 tags: ["postgres", "neon", "infrastructure"]
 created: 2026-04-13T11:16:30.596Z
-updated: 2026-04-20T11:17:59.993Z
+updated: 2026-04-22T11:03:39.720Z
 reviewedBy: ["growth", "ceo", "ops"]
 ---
 
