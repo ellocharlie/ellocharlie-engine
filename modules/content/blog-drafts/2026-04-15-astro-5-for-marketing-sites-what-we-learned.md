@@ -1,11 +1,11 @@
 ---
 title: "Astro 5 for marketing sites: what we learned"
 slug: astro-5-for-marketing-sites-what-we-learned
-stage: ready-to-publish
+stage: published
 assignedAgent: ops
 tags: ["astro", "webdev"]
 created: 2026-04-15T10:57:49.789Z
-updated: 2026-04-22T11:03:39.721Z
+updated: 2026-04-24T11:05:26.918Z
 reviewedBy: ["growth", "ceo", "ops"]
 ---
 

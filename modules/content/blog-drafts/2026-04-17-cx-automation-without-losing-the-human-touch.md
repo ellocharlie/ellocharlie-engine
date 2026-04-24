@@ -1,12 +1,12 @@
 ---
 title: "CX automation without losing the human touch"
 slug: cx-automation-without-losing-the-human-touch
-stage: positioning-review
+stage: ready-to-publish
 assignedAgent: ops
 tags: ["cx", "agents", "support"]
 created: 2026-04-17T10:54:31.836Z
-updated: 2026-04-22T11:03:39.722Z
-reviewedBy: ["growth", "ceo"]
+updated: 2026-04-24T11:05:26.919Z
+reviewedBy: ["growth", "ceo", "ops"]
 ---
 
 ## Brief
