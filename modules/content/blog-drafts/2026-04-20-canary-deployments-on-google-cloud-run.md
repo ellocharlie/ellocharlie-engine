@@ -1,11 +1,11 @@
 ---
 title: "Canary deployments on Google Cloud Run"
 slug: canary-deployments-on-google-cloud-run
-stage: ready-to-publish
+stage: published
 assignedAgent: ops
 tags: ["deployment", "gcr", "devops"]
 created: 2026-04-20T11:17:59.994Z
-updated: 2026-04-27T11:43:22.113Z
+updated: 2026-04-29T11:27:43.333Z
 reviewedBy: ["growth", "ceo", "ops"]
 ---
 

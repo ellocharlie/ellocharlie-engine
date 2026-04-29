@@ -11,4 +11,4 @@ Stages: backlog → draft → technical-review → positioning-review → ready-
 - [published] Why we chose Neon Postgres for serverless database ops #postgres #neon #infrastructure
 - [published] Astro 5 for marketing sites: what we learned #astro #webdev
 - [published] CX automation without losing the human touch #cx #agents #support
-- [ready-to-publish] Canary deployments on Google Cloud Run #deployment #gcr #devops
+- [published] Canary deployments on Google Cloud Run #deployment #gcr #devops
